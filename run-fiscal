@@ -1,0 +1,80 @@
+#!/bin/bash
+
+echo "run-fiscal"
+
+#check number of params
+if [ "$#" -ne 3 ]; then
+    echo "Illegal number of parameters"
+    echo "Try somethin like:"
+    echo "./run-fiscal -DserverAddress=xx.xx.xx.xx:yyyy -Did=pollingPlaceNumber -Dparty=partyName"
+    exit
+fi
+
+#check content of params -> the best would be to have if el if and else say "sorry params are invalid!"
+
+INPUT=$1
+left=$(echo $INPUT| cut -d'=' -f 1)
+#echo $left
+if [ $left == "-DserverAddress" ]
+  then
+    SERVERADRESS=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Did" ]
+  then
+    ID=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Dparty" ]
+  then
+    PARTY=$(echo $INPUT| cut -d'=' -f 2)
+else
+  echo "Invalid params"
+  exit
+fi
+
+INPUT=$2
+left=$(echo $INPUT| cut -d'=' -f 1)
+#echo $left
+if [ $left == "-DserverAddress" ]
+  then
+    SERVERADRESS=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Did" ]
+  then
+    ID=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Dparty" ]
+  then
+    PARTY=$(echo $INPUT| cut -d'=' -f 2)
+else
+  echo "Invalid params"
+  exit
+fi
+
+INPUT=$3
+left=$(echo $INPUT| cut -d'=' -f 1)
+#echo $left
+if [ $left == "-DserverAddress" ]
+  then
+    SERVERADRESS=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Did" ]
+  then
+    ID=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Dparty" ]
+  then
+    PARTY=$(echo $INPUT| cut -d'=' -f 2)
+else
+  echo "Invalid params"
+  exit
+fi
+
+cd client/target/POD-client-1.0-SNAPSHOT
+
+java $* -cp 'lib/jars/*' "ar.edu.itba.pod.client.FiscalClient" $SERVERADRESS $ID $PARTY #$*
+
+#./run-fiscal -DserverAddress=xx.xx.xx.xx:yyyy -Did=pollingPlaceNumber -Dparty=partyName
+
+#./run-fiscal -DserverAddress=10.6.0.1:1099 -Did=1001 -Dparty=TIGER
+
+#./run-fiscal -Did=1001 -Dparty=TIGER -DserverAddress=10.6.0.1:1099
+
+#./run-fiscal -Dparty=TIGER -Did=1001 -DserverAddress=10.6.0.1:1099
+
+#./run-fiscal -Dparty=TIGER -DserverAddress=10.6.0.1:1099 -Did=1001
+
+

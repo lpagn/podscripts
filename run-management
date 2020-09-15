@@ -1,0 +1,51 @@
+#!/bin/bash
+
+echo "run-management"
+
+#check number of params
+if [ "$#" -ne 2 ]; then
+    echo "Illegal number of parameters"
+    echo "Try somethin like:"
+    echo "./run-management -DserverAddress=​xx.xx.xx.xx:yyyy​ -Daction=​actionName"
+    exit
+fi
+
+#check content of params -> the best would be to have if el if and else say "sorry params are invalid!"
+
+INPUT=$1
+left=$(echo $INPUT| cut -d'=' -f 1)
+#echo $left
+if [ $left == "-DserverAddress" ]
+  then
+    SERVERADRESS=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Daction" ]
+  then
+    ACTION=$(echo $INPUT| cut -d'=' -f 2)
+else
+  echo "Invalid params"
+  exit
+fi
+
+INPUT=$2
+left=$(echo $INPUT| cut -d'=' -f 1)
+#echo $left
+if [ $left == "-DserverAddress" ]
+  then
+    SERVERADRESS=$(echo $INPUT| cut -d'=' -f 2)
+elif [ $left == "-Daction" ]
+  then
+    ACTION=$(echo $INPUT| cut -d'=' -f 2)
+else
+  echo "Invalid params"
+  exit
+fi
+
+cd client/target/POD-client-1.0-SNAPSHOT
+
+java $* -cp 'lib/jars/*' "ar.edu.itba.pod.client.ManagementClient" $SERVERADRESS $ACTION $*
+
+#./run-management -DserverAddress=​xx.xx.xx.xx:yyyy​ -Daction=​actionName
+
+#./run-management -DserverAddress=10.6.0.1:1099 -Daction=open
+
+#./run-management -Daction=open -DserverAddress=10.6.0.1:1099
